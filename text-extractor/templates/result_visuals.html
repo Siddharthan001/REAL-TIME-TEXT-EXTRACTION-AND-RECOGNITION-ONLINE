@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Extraction from Camera</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        h1, h4 {
+            color: #343a40;
+        }
+        #detected-text {
+            white-space: pre-wrap; /* Preserve whitespace and line breaks */
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            padding: 15px;
+            background-color: #ffffff;
+            color: #212529;
+            margin-top: 20px;
+            height: 250px;
+            overflow-y: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1rem;
+        }
+        .btn {
+            margin: 5px;
+        }
+        .loading {
+            text-align: center;
+            color: #6c757d;
+            font-style: italic;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Text Extraction from Camera</h1>
+        <h4>Detected Text:</h4>
+        <div id="detected-text" class="result">Loading detected text...</div>
+        <div class="loading" id="loading-text">Please wait while the camera processes the text...</div>
+        <div class="text-center mt-4">
+            <a href="{{ url_for('index') }}" class="btn btn-primary">Back to Home</a>
+            <a href="/start_camera" class="btn btn-secondary">Start New Camera Session</a>
+        </div>
+    </div>
+
+    <script>
+        function updateDetectedText() {
+            fetch('/video_feed')
+                .then(response => response.text())
+                .then(data => {
+                    const detectedTextElement = document.getElementById('detected-text');
+                    const loadingElement = document.getElementById('loading-text');
+                    
+                    if (data.trim()) {
+                        detectedTextElement.textContent = data;
+                        loadingElement.style.display = 'none'; // Hide loading message
+                    } else {
+                        detectedTextElement.textContent = 'No text detected yet. Keep your camera focused!';
+                        loadingElement.style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching detected text:', error);
+                    document.getElementById('detected-text').textContent = 'Error fetching detected text. Please try again.';
+                });
+        }
+
+        // Update detected text every second
+        setInterval(updateDetectedText, 1000);
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

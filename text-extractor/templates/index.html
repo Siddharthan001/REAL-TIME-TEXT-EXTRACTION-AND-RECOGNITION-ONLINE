@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Extraction App</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+        .status {
+            margin-top: 20px;
+            text-align: center;
+            color: #6c757d;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="text-center mb-4">Text Extraction App</h1>
+                <p class="text-center">Upload an image, video, or start the camera to extract text in real-time.</p>
+
+                <!-- Form to upload an image -->
+                <form action="/extract" method="post" enctype="multipart/form-data" class="mb-3">
+                    <div class="form-group">
+                        <input type="file" name="file" class="form-control-file" accept="image/*" required>
+                    </div>
+                    <button type="submit" class="btn btn-custom btn-block">Extract Text from Image</button>
+                </form>
+
+                <!-- Form to upload a video -->
+                <form action="/extract_video" method="post" enctype="multipart/form-data" class="mb-3">
+                    <div class="form-group">
+                        <input type="file" name="file" class="form-control-file" accept="video/*" required>
+                    </div>
+                    <button type="submit" class="btn btn-custom btn-block">Extract Text from Video</button>
+                </form>
+
+                <!-- Start camera form -->
+                <form action="/start_camera" method="post" class="mb-3">
+                    <button type="submit" class="btn btn-custom btn-block">Start Camera for Real-Time Text</button>
+                </form>
+
+                <!-- Status section -->
+                <div class="status">
+                    <p>Extracting text from files or live feed has never been easier!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

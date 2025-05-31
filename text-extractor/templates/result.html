@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extracted Text</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .output-image {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Extracted Text from Image</h1>
+        <div class="mt-5">
+            <h4>Extracted Text:</h4>
+            <pre>{{ text }}</pre>
+            <img src="{{ output_image }}" alt="Output Image" class="output-image">
+        </div>
+        <a href="/" class="btn btn-primary mt-5">Go Back</a>
+    </div>
+</body>
+</html>

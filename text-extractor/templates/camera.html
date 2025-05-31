@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        #camera {
+            width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+        #detected-text {
+            white-space: pre-wrap; /* Wrap long lines */
+            word-wrap: break-word; /* Break long words */
+            background-color: #fff;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Camera Feed</h1>
+        <div class="text-center">
+            <video id="camera" autoplay></video>
+        </div>
+        <div id="detected-text" class="text-center">
+            <h4>Detected Text:</h4>
+            <pre id="text-output">Waiting for text...</pre>
+        </div>
+        <form action="/stop_camera" method="post" class="text-center">
+            <button type="submit" class="btn btn-danger">Stop Camera</button>
+        </form>
+        <a href="/" class="btn btn-primary mt-3">Go Back</a>
+    </div>
+    <script>
+        // JavaScript to access the camera and display the feed
+        const video = document.getElementById('camera');
+        const textOutput = document.getElementById('text-output');
+
+        navigator.mediaDevices.getUser Media({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+                // Start fetching detected text every second
+                setInterval(fetchDetectedText, 1000);
+            })
+            .catch(err => {
+                console.error("Error accessing camera: ", err);
+            });
+
+        function fetchDetectedText() {
+            fetch('/get_detected_text')
+                .then(response => response.json())
+                .then(data => {
+                    textOutput.textContent = data.text || "No text detected.";
+                })
+                .catch(err => {
+                    console.error("Error fetching detected text: ", err);
+                });
+        }
+    </script>
+</body>
+</html>
